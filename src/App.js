@@ -25,20 +25,32 @@ function App() {
             <hr/>
             <div className="row">
                 <div className="col-sm">
-                    To Do
+                    <nav className="navbar navbar-light bg-light">
+                        <span><strong>To Do</strong></span>
+                    </nav>
+                    <p/>
                     <BoardTasksList
                         tasks={tasks} state='To Do'/>
                 </div>
                 <div className="col-sm">
-                    In Progress
+                    <nav className="navbar navbar-light bg-light">
+                        <span><strong>In Progress</strong></span>
+                    </nav>
+                    <p/>
                     <BoardTasksList tasks={tasks} state='In Progress'/>
                 </div>
                 <div className="col-sm">
-                    In Review
+                    <nav className="navbar navbar-light bg-light">
+                        <span><strong>In Review</strong></span>
+                    </nav>
+                    <p/>
                     <BoardTasksList tasks={tasks} state='In Review'/>
                 </div>
                 <div className="col-sm">
-                    Done
+                    <nav className="navbar navbar-light bg-light">
+                        <span><strong>Done</strong></span>
+                    </nav>
+                    <p/>
                     <BoardTasksList tasks={tasks} state='Done'/>
                 </div>
             </div>
