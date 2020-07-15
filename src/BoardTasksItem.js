@@ -17,7 +17,8 @@ function BoardTasksItem(props) {
             <div className="card shadow-sm">
                 <div className="card-body">
                     <p className="card-text"> {props.item.name}</p>
-                    <span>{deleteBtn}</span>
+                    <span>{props.item.priority}</span>
+                    <span onClick={() => props.onTaskDelete(props.item.id)}>{deleteBtn}</span>
                 </div>
 
             </div>

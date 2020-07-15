@@ -6,7 +6,8 @@ function BoardTasksList(props) {
     return (
         <div className="BoardTasksList">
             {props.tasks.filter(el => el.state === props.state).map(el => <li key={el.id}>
-                <BoardTasksItem item={el}/>
+                <BoardTasksItem item={el}
+                                onTaskDelete={props.onTaskDelete}/>
             </li>)}
         </div>
     );
