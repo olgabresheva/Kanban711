@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function BoardTaskCreateForm(props) {
 
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [newTaskInput, setNewTaskInput] = useState('');
-    const [priority, setPriority] = useState('Select Task Priority');
+    const [priority, setPriority] = useState('');
 
     const onOpenCreateTaskForm = () => {
         setShowCreateForm(true);
@@ -18,13 +18,14 @@ function BoardTaskCreateForm(props) {
     }
 
     const onPrioritySelect = (e) => {
-        // setPriority({value : e.target.value});
         setPriority(e.target.value);
     }
 
     const onCreateTask = (e) => {
         props.onTaskCreate(newTaskInput, priority);
         e.preventDefault();
+        setShowCreateForm(false);
+        setNewTaskInput('');
     }
 
 
@@ -40,11 +41,11 @@ function BoardTaskCreateForm(props) {
                         <input className="form-control" id="exampleInputTask" placeholder="your task description"
                         onChange={e => setNewTaskInput(e.target.value)}/>
                     </div>
-                    <select className="custom-select">
-                        <option value="0" onChange={onPrioritySelect}>Select Task Priority</option>
-                        <option value="1">Low</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
+                    <select className="custom-select" onChange={onPrioritySelect}>
+                        <option defaultValue="Select Priority">Select Task Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
                     </select>
                     <p/>
                     <button type="submit" className="btn btn-info btn-sm" onClick={onCreateTask} >Submit</button>
