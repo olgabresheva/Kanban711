@@ -7,7 +7,9 @@ function BoardTasksList(props) {
         <div className="BoardTasksList">
             {props.tasks.filter(el => el.state === props.state).map(el => <li key={el.id}>
                 <BoardTasksItem item={el}
-                                onTaskDelete={props.onTaskDelete}/>
+                                onTaskDelete={props.onTaskDelete}
+                                onTaskEditSave={props.onTaskEditSave}
+                                onPriorityChange={props.onPriorityChange}/>
             </li>)}
         </div>
     );

@@ -32,14 +32,15 @@ function BoardTaskCreateForm(props) {
     return (
         <div className="BoardTaskCreateForm">
 
-            {!showCreateForm && <button className="btn btn-info btn-sm" onClick={onOpenCreateTaskForm}>Create Task</button>}
+            {!showCreateForm &&
+            <button className="btn btn-info btn-sm" onClick={onOpenCreateTaskForm}>Create Task</button>}
             <p/>
 
             {showCreateForm ?
                 <form>
                     <div className="form-group">
                         <input className="form-control" id="exampleInputTask" placeholder="your task description"
-                        onChange={e => setNewTaskInput(e.target.value)}/>
+                               onChange={e => setNewTaskInput(e.target.value)}/>
                     </div>
                     <select className="custom-select" onChange={onPrioritySelect}>
                         <option defaultValue="Select Priority">Select Task Priority</option>
@@ -48,7 +49,7 @@ function BoardTaskCreateForm(props) {
                         <option value="High">High</option>
                     </select>
                     <p/>
-                    <button type="submit" className="btn btn-info btn-sm" onClick={onCreateTask} >Submit</button>
+                    <button type="submit" className="btn btn-info btn-sm" onClick={onCreateTask}>Submit</button>
                     <button type="submit" className="btn btn-secondary btn-sm" onClick={cancelCreateTask}>Cancel
                     </button>
                 </form>

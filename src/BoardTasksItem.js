@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 
 function BoardTasksItem(props) {
-
     const deleteBtn = (<svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-trash" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
         <path
@@ -19,17 +18,58 @@ function BoardTasksItem(props) {
               d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
     </svg>);
 
+    const priorityUp = (<svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-up" fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd"
+              d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+    </svg>);
+
+    const priorityDown = (
+        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-down" fill="currentColor"
+             xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>);
+
+    const [editMode, setEditMode] = useState(false);
+    const [taskEditInput, setTaskEditInput] = useState(props.item.name);
+
+    const onTaskEdit = () => {
+        setEditMode(true);
+    }
+
+    const onTaskEditSave = () => {
+        props.onTaskEditSave(taskEditInput, props.item.id);
+        setEditMode(false);
+    }
+
+    const onTaskEditCancel = () => {
+        setEditMode(false);
+        setTaskEditInput(props.item.name);
+    }
 
     return (
         <div className="BoardTasksItem">
             <div className="card shadow-sm">
                 <div className="card-body">
                     <p className="card-text"> {props.item.name}</p>
-                    <span>{props.item.priority}</span>
-                    <span onClick={() => props.onTaskDelete(props.item.id)}>{deleteBtn}</span>
-                    <span>{editBtn}</span>
-                </div>
 
+                    <span onClick={() => props.onPriorityChange({id: props.item.id, direction : 'up' })}>{priorityUp}</span>
+                    <span onClick={() => props.onPriorityChange({id: props.item.id, direction : 'down' })} >{priorityDown}</span>
+                    <span>{props.item.priority}</span>
+
+
+
+                    <span onClick={() => props.onTaskDelete(props.item.id)}>{deleteBtn}</span>
+                    {editMode
+                        ? <>
+                            <input type="text" value={taskEditInput} onChange={e => setTaskEditInput(e.target.value)}/><br/>
+                            <button type="button" className="btn btn-outline-success btn-sm" onClick={onTaskEditSave}>Save</button>
+                            <button type="button" className="btn btn-outline-dark btn-sm" onClick={onTaskEditCancel}>Cancel</button>
+                        </>
+                        : <span onClick={onTaskEdit}>{editBtn}</span>
+                    }
+                </div>
             </div>
         </div>
     );

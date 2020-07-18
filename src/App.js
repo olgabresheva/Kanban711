@@ -28,6 +28,31 @@ function App() {
         setTasks(updatedTaskList);
     }
 
+    const onTaskEditSave = (name, id) => {
+        const updatedTaskList = tasks.map(el => {
+            if (el.id === id) return ({...el, name: name})
+            else return el
+        })
+        setTasks(updatedTaskList);
+    }
+
+    const priorities = ['Low', 'Medium', 'High'];
+
+    const onPriorityChange = ({id, direction}) => {
+        const updatedTaskList = tasks.map(el => {
+            if (el.id === id) {
+                if (direction === 'up') {
+                    el.priority = priorities[priorities.indexOf(el.priority) + 1]
+                }
+                if (direction === 'down') {
+                    el.priority = priorities[priorities.indexOf(el.priority) - 1]
+                }
+                return el
+            } else return el
+        });
+        setTasks(updatedTaskList);
+    }
+
     return (
         <div className="container">
             <h3>Kanban Board</h3>
@@ -42,7 +67,10 @@ function App() {
                     <p/>
                     <BoardTasksList
                         tasks={tasks} state='To Do'
-                        onTaskDelete={onTaskDelete}/>
+                        onTaskDelete={onTaskDelete}
+                        onTaskEditSave={onTaskEditSave}
+                        onPriorityChange={onPriorityChange}
+                    />
                 </div>
                 <div className="col-sm">
                     <nav className="navbar navbar-light bg-light">
@@ -50,7 +78,10 @@ function App() {
                     </nav>
                     <p/>
                     <BoardTasksList tasks={tasks} state='In Progress'
-                                    onTaskDelete={onTaskDelete}/>
+                                    onTaskDelete={onTaskDelete}
+                                    onTaskEditSave={onTaskEditSave}
+                                    onPriorityChange={onPriorityChange}
+                    />
                 </div>
                 <div className="col-sm">
                     <nav className="navbar navbar-light bg-light">
@@ -58,7 +89,10 @@ function App() {
                     </nav>
                     <p/>
                     <BoardTasksList tasks={tasks} state='In Review'
-                                    onTaskDelete={onTaskDelete}/>
+                                    onTaskDelete={onTaskDelete}
+                                    onTaskEditSave={onTaskEditSave}
+                                    onPriorityChange={onPriorityChange}
+                    />
                 </div>
                 <div className="col-sm">
                     <nav className="navbar navbar-light bg-light">
@@ -66,7 +100,10 @@ function App() {
                     </nav>
                     <p/>
                     <BoardTasksList tasks={tasks} state='Done'
-                                    onTaskDelete={onTaskDelete}/>
+                                    onTaskDelete={onTaskDelete}
+                                    onTaskEditSave={onTaskEditSave}
+                                    onPriorityChange={onPriorityChange}
+                    />
                 </div>
             </div>
         </div>
