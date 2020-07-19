@@ -9,7 +9,9 @@ function BoardTasksList(props) {
                 <BoardTasksItem item={el}
                                 onTaskDelete={props.onTaskDelete}
                                 onTaskEditSave={props.onTaskEditSave}
-                                onPriorityChange={props.onPriorityChange}/>
+                                onPriorityChange={props.onPriorityChange}
+                                onTaskMoveLeft={props.onTaskMoveLeft}
+                                onTaskStateChange={props.onTaskStateChange}/>
             </li>)}
         </div>
     );

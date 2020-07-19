@@ -32,6 +32,19 @@ function BoardTasksItem(props) {
                   d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
         </svg>);
 
+    const leftBtn = (<svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-left" fill="currentColor"
+                          xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd"
+              d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+    </svg>);
+
+    const rightBtn = (
+        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-caret-right" fill="currentColor"
+             xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd"
+                  d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+        </svg>);
+
     const [editMode, setEditMode] = useState(false);
     const [taskEditInput, setTaskEditInput] = useState(props.item.name);
     const [priorityHighBtnDisabled, setPriorityHighBtnDisabled] = useState(false);
@@ -63,15 +76,25 @@ function BoardTasksItem(props) {
         (props.item.priority === 'Low') && setPriorityLowBtnDisabled(true);
     }
 
+    const onTaskMoveLeft = () => {
+        props.onTaskStateChange({id: props.item.id, direction: 'left'});
+    }
+
+    const onTaskMoveRight = () => {
+        props.onTaskStateChange({id: props.item.id, direction: 'right'});
+    }
+
     return (
         <div className="BoardTasksItem">
             <div className="card shadow-sm">
                 <div className="card-header rounded-top">
                     <button disabled={priorityHighBtnDisabled} onClick={onIncreasePriority}>{priorityUp}</button>
                     <button disabled={priorityLowBtnDisabled} onClick={onDecreasePriority}>{priorityDown}</button>
-                    <span className="p-2 flex-grow-1 bd-highlight">{props.item.priority}</span>
-                    <span onClick={() => props.onTaskDelete(props.item.id)}
-                          className="ml-auto p-2 bd-highlight">{deleteBtn}</span>
+                    <span className="inline-block mr-auto p-2">{props.item.priority}</span>
+                    <span className="p-2" onClick={onTaskEdit}>{editBtn}</span>
+                    <span className="p-2" onClick={() => props.onTaskDelete(props.item.id)}>{deleteBtn}</span>
+                </div>
+                <div className="card-body">
                     {editMode
                         ? <>
                             <input type="text" value={taskEditInput}
@@ -83,11 +106,16 @@ function BoardTasksItem(props) {
                                     onClick={onTaskEditCancel}>Cancel
                             </button>
                         </>
-                        : <span onClick={onTaskEdit} className="ml-auto p-2 bd-highlight">{editBtn}</span>
+                        : <span className="card-text"> {props.item.name}</span>
                     }
                 </div>
-                <div className="card-body">
-                    <p className="card-text"> {props.item.name}</p>
+                <div className="card-footer bg-transparent border-top-0">
+                    {(props.item.state !== 'To Do')
+                        ? <button onClick={onTaskMoveLeft}>{leftBtn}</button>
+                        : null}
+                    {(props.item.state !== 'Done')
+                        ? <button onClick={onTaskMoveRight}>{rightBtn}</button>
+                        : null}
                 </div>
             </div>
         </div>

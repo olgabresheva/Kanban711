@@ -15,7 +15,6 @@ const initialList = [
 function App() {
 
     const [tasks, setTasks] = useState(initialList);
-    const state = ['To Do', 'In Progress', 'In Review', 'Done'];
 
     const onTaskDelete = (id) => {
         const updatedTaskList = tasks.filter(el => el.id !== id);
@@ -53,6 +52,22 @@ function App() {
         setTasks(updatedTaskList);
     }
 
+    const states = ['To Do', 'In Progress', 'In Review', 'Done'];
+
+    const onTaskStateChange = ({id, direction}) => {
+        const updatedTaskList = tasks.map(el => {
+            if(el.id === id){
+                if(direction === 'left'){
+                    el.state = states[states.indexOf(el.state) - 1];
+                }
+                if(direction === 'right'){
+                    el.state = states[states.indexOf(el.state) + 1];
+                } return el
+            } else return el;
+        });
+        setTasks(updatedTaskList);
+    }
+
     return (
         <div className="container">
             <h3>Kanban Board</h3>
@@ -70,6 +85,7 @@ function App() {
                         onTaskDelete={onTaskDelete}
                         onTaskEditSave={onTaskEditSave}
                         onPriorityChange={onPriorityChange}
+                        onTaskStateChange={onTaskStateChange}
                     />
                 </div>
                 <div className="col-sm">
@@ -81,6 +97,7 @@ function App() {
                                     onTaskDelete={onTaskDelete}
                                     onTaskEditSave={onTaskEditSave}
                                     onPriorityChange={onPriorityChange}
+                                    onTaskStateChange={onTaskStateChange}
                     />
                 </div>
                 <div className="col-sm">
@@ -92,6 +109,7 @@ function App() {
                                     onTaskDelete={onTaskDelete}
                                     onTaskEditSave={onTaskEditSave}
                                     onPriorityChange={onPriorityChange}
+                                    onTaskStateChange={onTaskStateChange}
                     />
                 </div>
                 <div className="col-sm">
@@ -103,6 +121,7 @@ function App() {
                                     onTaskDelete={onTaskDelete}
                                     onTaskEditSave={onTaskEditSave}
                                     onPriorityChange={onPriorityChange}
+                                    onTaskStateChange={onTaskStateChange}
                     />
                 </div>
             </div>
