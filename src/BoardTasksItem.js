@@ -18,11 +18,12 @@ function BoardTasksItem(props) {
               d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
     </svg>);
 
-    const priorityUp = (<svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-up" fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd"
-              d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-    </svg>);
+    const priorityUp = (
+        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-up" fill="currentColor"
+             xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd"
+                  d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>);
 
     const priorityDown = (
         <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-down" fill="currentColor"
@@ -33,6 +34,8 @@ function BoardTasksItem(props) {
 
     const [editMode, setEditMode] = useState(false);
     const [taskEditInput, setTaskEditInput] = useState(props.item.name);
+    const [priorityHighBtnDisabled, setPriorityHighBtnDisabled] = useState(false);
+    const [priorityLowBtnDisabled, setPriorityLowBtnDisabled] = useState(false);
 
     const onTaskEdit = () => {
         setEditMode(true);
@@ -48,27 +51,43 @@ function BoardTasksItem(props) {
         setTaskEditInput(props.item.name);
     }
 
+    const onIncreasePriority = () => {
+        props.onPriorityChange({id: props.item.id, direction: 'up'});
+        (props.item.priority === 'High') && setPriorityHighBtnDisabled(true);
+        (props.item.priority !== 'Low') && setPriorityLowBtnDisabled(false);
+    }
+
+    const onDecreasePriority = () => {
+        props.onPriorityChange({id: props.item.id, direction: 'down'});
+        (props.item.priority !== 'High') && setPriorityHighBtnDisabled(false);
+        (props.item.priority === 'Low') && setPriorityLowBtnDisabled(true);
+    }
+
     return (
         <div className="BoardTasksItem">
             <div className="card shadow-sm">
-                <div className="card-body">
-                    <p className="card-text"> {props.item.name}</p>
-
-                    <span onClick={() => props.onPriorityChange({id: props.item.id, direction : 'up' })}>{priorityUp}</span>
-                    <span onClick={() => props.onPriorityChange({id: props.item.id, direction : 'down' })} >{priorityDown}</span>
-                    <span>{props.item.priority}</span>
-
-
-
-                    <span onClick={() => props.onTaskDelete(props.item.id)}>{deleteBtn}</span>
+                <div className="card-header rounded-top">
+                    <button disabled={priorityHighBtnDisabled} onClick={onIncreasePriority}>{priorityUp}</button>
+                    <button disabled={priorityLowBtnDisabled} onClick={onDecreasePriority}>{priorityDown}</button>
+                    <span className="p-2 flex-grow-1 bd-highlight">{props.item.priority}</span>
+                    <span onClick={() => props.onTaskDelete(props.item.id)}
+                          className="ml-auto p-2 bd-highlight">{deleteBtn}</span>
                     {editMode
                         ? <>
-                            <input type="text" value={taskEditInput} onChange={e => setTaskEditInput(e.target.value)}/><br/>
-                            <button type="button" className="btn btn-outline-success btn-sm" onClick={onTaskEditSave}>Save</button>
-                            <button type="button" className="btn btn-outline-dark btn-sm" onClick={onTaskEditCancel}>Cancel</button>
+                            <input type="text" value={taskEditInput}
+                                   onChange={e => setTaskEditInput(e.target.value)}/><br/>
+                            <button type="button" className="btn btn-outline-success btn-sm"
+                                    onClick={onTaskEditSave}>Save
+                            </button>
+                            <button type="button" className="btn btn-outline-dark btn-sm"
+                                    onClick={onTaskEditCancel}>Cancel
+                            </button>
                         </>
-                        : <span onClick={onTaskEdit}>{editBtn}</span>
+                        : <span onClick={onTaskEdit} className="ml-auto p-2 bd-highlight">{editBtn}</span>
                     }
+                </div>
+                <div className="card-body">
+                    <p className="card-text"> {props.item.name}</p>
                 </div>
             </div>
         </div>
