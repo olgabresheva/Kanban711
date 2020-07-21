@@ -28,6 +28,11 @@ function BoardTaskCreateForm(props) {
         setNewTaskInput('');
     }
 
+    // const onTaskEnter = e => {
+    //     if (e.keyCode === 13) {
+    //         onCreateTask();
+    //     }
+    // }
 
     return (
         <div className="BoardTaskCreateForm">
@@ -40,7 +45,9 @@ function BoardTaskCreateForm(props) {
                 <form>
                     <div className="form-group">
                         <input className="form-control" id="exampleInputTask" placeholder="your task description"
-                               onChange={e => setNewTaskInput(e.target.value)}/>
+                               onChange={e => setNewTaskInput(e.target.value)}
+                               // onKeyPress={onTaskEnter}
+                        />
                     </div>
                     <select className="custom-select" onChange={onPrioritySelect}>
                         <option defaultValue="Select Priority">Select Task Priority</option>
